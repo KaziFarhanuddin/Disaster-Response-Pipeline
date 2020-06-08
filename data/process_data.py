@@ -76,15 +76,10 @@ def save_data(df, database_filename):
     -------    
         None:
     '''
-    # Removing the data base if alrady present
-    try:
-        os.remove(database_filename)
-    except Exception:
-        pass
     
     # Saving cleaned data to data base
     engine = create_engine('sqlite:///' + database_filename)
-    df.to_sql('disaster_management', engine, index=False)
+    df.to_sql('disaster_management', engine, index=False, if_exists='replace')
 
 
 def main():
