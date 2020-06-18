@@ -12,7 +12,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import classification_report
 from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import Pipeline
 from sqlalchemy import create_engine
 
@@ -103,7 +102,7 @@ def build_model():
     pipeline = Pipeline([
         ('cv', CountVectorizer(tokenizer=tokenize)),
         ('tfid', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier(n_estimators=10, n_jobs=-1)))
+        ('clf', RandomForestClassifier(n_estimators=10, n_jobs=-1))
     ])
 
     # initializing the parameters
@@ -113,8 +112,7 @@ def build_model():
     }
     
     # GridSearchCV to find the best combination of parameters for the model
-    model = GridSearchCV(pipeline, param_grid=parameters, 
-                cv=2, verbose=1, n_jobs=-1) 
+    model = GridSearchCV(pipeline, param_grid=parameters, verbose=1, n_jobs=-1) 
 
     return model
 
@@ -144,10 +142,8 @@ def evaluate_model(model, X_test, Y_test, category_names):
     Y_pred = model.predict(X_test)
 
     # Calculating and printing classification_report for all catagories
-    print("Classification Report for each Category:\n")
-    for i in range(len(category_names)):
-        print("Category: ", category_names[i])
-        print(classification_report(Y_test[:, i], Y_pred[:, i]))
+    print("Classification Report:\n")
+    print(classification_report(Y_test, Y_pred))
 
 
 def save_model(model, model_filepath):
