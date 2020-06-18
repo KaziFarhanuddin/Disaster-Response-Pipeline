@@ -1,4 +1,4 @@
-# Disaster Response Pipeline Project
+# Disaster Response Pipeline
 
 The project uses disaster response data set cleans it using an ELT pipeline to provides visuals to better understand the data, it also uses Machine Learning pipeline to create a model which is used to predict the category of the new message 
 
